@@ -26,6 +26,7 @@ char string_add_by_place(char raw, int adding, bool *carry) { // 按位进行加
 }
 
 void string_add_main(char *num_string, int adding) {
+    
     int len = strlen(num_string);
     int add = adding;
     bool carry = false;
