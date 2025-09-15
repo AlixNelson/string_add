@@ -28,9 +28,9 @@ char string_add_by_place(char raw, int adding, int *carry) { // 按位进行加�
 }
 */
 
-void string_add_main(char **num_string_ptr, int adding) {
+void string_add_main(char **num_string_ptr, int adding) { /// 传入指针，方便后续交换
     
-    char *num_string = *num_string_ptr;
+    char *num_string = *num_string_ptr; // 对指针解引用
     int len = strlen(num_string); // 获取数组长度
     int i = len - 1; // 索引从0开始，所以这里-1
     /*
@@ -44,11 +44,11 @@ void string_add_main(char **num_string_ptr, int adding) {
         num_string[i] = string_add_by_place(num_string[i], carry_num, &carry);
         i--;
         */
-    int digit = num_string[i] - '0';
-    digit += adding;
-    adding = digit / 10;
-    digit %= 10;
-    num_string[i] = digit + '0';
+    int digit = num_string[i] - '0'; // 当前位上数字字符的数值
+    digit += adding; // 加
+    adding = digit / 10; // 需要进位的值
+    digit %= 10; // 这位上的当前值
+    num_string[i] = digit + '0'; // 把它变成char后传入数组
     i--;
     }
     // 如果最高位需要进位则应该进行内存动态分配并进行最后一次进位
@@ -58,23 +58,24 @@ void string_add_main(char **num_string_ptr, int adding) {
         new_string[0] = adding + '0';
         strcpy(new_string + 1, num_string);
         new_string[new_len] = '\0';
-        *num_string_ptr = new_string;
+        *num_string_ptr = new_string; // 指针交换
     }
 }
 
 
 int main(void) {
-    char *testing_num_string = strdup("89");
+    char *testing_num_string = strdup("89"); // 动态分配初始值
     if (testing_num_string == NULL) {
         perror("NULL");
         return 1;
     }
-    string_add_main(&testing_num_string, 334);
+    string_add_main(&testing_num_string, 334); // 传入一个指针
     printf("%s\n", testing_num_string);
     int len = strlen(testing_num_string) - 1;
     for (len; len >= 0; len--) {
         printf("%d,%d\n",len, testing_num_string[len]);
     };
+    free(testing_num_string);
     system("pause");
     return 0;
 }
